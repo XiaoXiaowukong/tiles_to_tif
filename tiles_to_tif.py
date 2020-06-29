@@ -29,7 +29,7 @@ def read_png(root, name):
     bounds = util.get_tile_bbox(z, x, y)
     #########
     if not os.path.exists(os.path.join(root, name)):
-        print "file is not exist"
+        print ("file is not exist")
     driver = gdal.GetDriverByName('PNG')
     driver.Register()
     data_set = gdal.Open(os.path.join(root, name), gdal.GA_ReadOnly)
