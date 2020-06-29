@@ -6,7 +6,7 @@ import numpy as np
 import osr
 
 import color_config
-from utils import util
+import util
 import sys
 
 
