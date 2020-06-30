@@ -41,15 +41,18 @@ def create_singleband_tif(root, name, o_path, all):
         g = data_set.GetRasterBand(2).ReadAsArray(0, 0, x_size, y_size)
         b = data_set.GetRasterBand(3).ReadAsArray(0, 0, x_size, y_size)
         all_data = []
+        ##########################################
+
+        ##########################################
         for r_item, g_item, b_item in zip(r, g, b):
             item_data = []
             for r_item_item, g_item_item, b_item_item in zip(r_item, g_item, b_item):
                 key = "{}{}{}".format(r_item_item, g_item_item, b_item_item)
                 all[key] = 0
                 # item_data.append(color_config.color_level[key])
-            # all_data.append(item_data)
-        # all_data = np.asarray(all_data, dtype=np.uint8)
-        # wirte_geotiff(all_data, os.path.join(o_path, name).replace(".png", "_test.tif"), bounds)
+                # all_data.append(item_data)
+                # all_data = np.asarray(all_data, dtype=np.uint8)
+                # wirte_geotiff(all_data, os.path.join(o_path, name).replace(".png", "_test.tif"), bounds)
     elif bands == 1:
         pass
         # all_data = data_set.GetRasterBand(1).ReadAsArray(0, 0, x_size, y_size)
@@ -75,7 +78,6 @@ def wirte_geotiff(data, export_tif, bounds):
     out_ds.GetRasterBand(1).SetNoDataValue(0)
     # 将缓存写入磁盘
     out_ds.FlushCache()
-    print("FlushCache succeed")
     del out_ds
 
 
@@ -100,10 +102,14 @@ if __name__ == '__main__':
         print("output  dir: {} is not exist".format(o_path))
         exit(1)
     all = {}
+    for_count = 0
     for root, dirs, files in os.walk(png_root):
         for name in files:
             if os.path.splitext(name)[-1] != ".png":
                 continue
+            if for_count % 1000 == 0:
+                print (for_count)
+            for_count += 1
             if type == "old":
                 georeference_raster_tile(root, name, o_path)
             elif type == "new":
