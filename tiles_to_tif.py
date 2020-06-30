@@ -10,12 +10,12 @@ import util
 import sys
 
 
-def georeference_raster_tile(root, name):
+def georeference_raster_tile(root, name, o_path):
     x = int(os.path.splitext(name)[0].split("-")[1])
     y = int(os.path.splitext(name)[0].split("-")[2])
     z = int(os.path.splitext(name)[0].split("-")[0])
     bounds = util.get_tile_bbox(z, x, y)
-    gdal.Translate(os.path.join(root, name).replace(".png", ".tif"),
+    gdal.Translate(os.path.join(o_path, name).replace(".png", ".tif"),
                    os.path.join(root, name),
                    outputSRS='EPSG:4326',
                    outputBounds=bounds)
@@ -91,6 +91,15 @@ def createSrs(projstr):
 if __name__ == '__main__':
     args = sys.argv[1:]
     png_root = args[0]
+    o_path = args[1]
+    if not os.path.exists(png_root):
+        print("input file dir is not exist")
+        exit(1)
+    if not os.path.exists(o_path):
+        print("output  dir: {} is not exist".format(o_path))
+        exit(1)
     for root, dirs, files in os.walk(png_root):
         for name in files:
-            georeference_raster_tile(root, name)
+            if os.path.splitext(name)[-1] != ".png":
+                continue
+            georeference_raster_tile(root, name, o_path)
