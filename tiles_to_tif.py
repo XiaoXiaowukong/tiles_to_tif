@@ -90,6 +90,8 @@ if __name__ == '__main__':
     args = sys.argv[1:]
     png_root = args[0]
     o_path = args[1]
+    type = args[2]
+
     if not os.path.exists(png_root):
         print("input file dir is not exist")
         exit(1)
@@ -101,6 +103,11 @@ if __name__ == '__main__':
         for name in files:
             if os.path.splitext(name)[-1] != ".png":
                 continue
-            georeference_raster_tile(root, name, o_path)
-            # create_singleband_tif(root, name, o_path, all)
+            if type == "old":
+                georeference_raster_tile(root, name, o_path)
+            elif type == "new":
+                create_singleband_tif(root, name, o_path, all)
+            else:
+                print("type must [ old or snew ]")
+                exit(1)
     print(all)
