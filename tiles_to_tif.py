@@ -107,7 +107,7 @@ if __name__ == '__main__':
         for name in files:
             if os.path.splitext(name)[-1] != ".png":
                 continue
-            if for_count % 1000 == 0:
+            if for_count % 500 == 0:
                 print (for_count)
                 print (all)
             for_count += 1
