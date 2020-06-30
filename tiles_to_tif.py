@@ -109,6 +109,7 @@ if __name__ == '__main__':
                 continue
             if for_count % 1000 == 0:
                 print (for_count)
+                print (all)
             for_count += 1
             if type == "old":
                 georeference_raster_tile(root, name, o_path)
