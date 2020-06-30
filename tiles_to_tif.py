@@ -21,7 +21,7 @@ def georeference_raster_tile(root, name, o_path):
                    outputBounds=bounds)
 
 
-def read_png(root, name):
+def create_singleband_tif(root, name, o_path, all):
     #########
     x = int(os.path.splitext(name)[0].split("-")[1])
     y = int(os.path.splitext(name)[0].split("-")[2])
@@ -40,8 +40,6 @@ def read_png(root, name):
         r = data_set.GetRasterBand(1).ReadAsArray(0, 0, x_size, y_size)
         g = data_set.GetRasterBand(2).ReadAsArray(0, 0, x_size, y_size)
         b = data_set.GetRasterBand(3).ReadAsArray(0, 0, x_size, y_size)
-        a = data_set.GetRasterBand(4).ReadAsArray(0, 0, x_size, y_size)
-        all = {}
         all_data = []
         for r_item, g_item, b_item in zip(r, g, b):
             item_data = []
@@ -51,10 +49,10 @@ def read_png(root, name):
                 item_data.append(color_config.color_level[key])
             all_data.append(item_data)
         all_data = np.asarray(all_data, dtype=np.uint8)
-        wirte_geotiff(all_data, os.path.join(root, name).replace(".png", "_test.tif"), bounds)
+        wirte_geotiff(all_data, os.path.join(o_path, name).replace(".png", "_test.tif"), bounds)
     elif bands == 1:
         all_data = data_set.GetRasterBand(1).ReadAsArray(0, 0, x_size, y_size)
-        wirte_geotiff(all_data, os.path.join(root, name).replace(".png", "_test.tif"), bounds)
+        wirte_geotiff(all_data, os.path.join(o_path, name).replace(".png", "_test.tif"), bounds)
     del data_set
 
 
@@ -98,8 +96,11 @@ if __name__ == '__main__':
     if not os.path.exists(o_path):
         print("output  dir: {} is not exist".format(o_path))
         exit(1)
+    all = {}
     for root, dirs, files in os.walk(png_root):
         for name in files:
             if os.path.splitext(name)[-1] != ".png":
                 continue
-            georeference_raster_tile(root, name, o_path)
+            # georeference_raster_tile(root, name, o_path)
+            create_singleband_tif(root, name, o_path, all)
+    print(all)
