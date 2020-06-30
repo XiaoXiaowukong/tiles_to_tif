@@ -101,6 +101,6 @@ if __name__ == '__main__':
         for name in files:
             if os.path.splitext(name)[-1] != ".png":
                 continue
-            # georeference_raster_tile(root, name, o_path)
-            create_singleband_tif(root, name, o_path, all)
+            georeference_raster_tile(root, name, o_path)
+            # create_singleband_tif(root, name, o_path, all)
     print(all)
