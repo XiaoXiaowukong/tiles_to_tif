@@ -52,11 +52,11 @@ def create_singleband_tif(root, name, o_path, all):
                 all[key] = 0
                 item_data.append(color_config.color_level[key])
                 all_data.append(item_data)
-                all_data = np.asarray(all_data, dtype=np.uint8)
+                # all_data = np.asarray(all_data, dtype=np.uint8)
                 # wirte_geotiff(all_data, os.path.join(o_path, name).replace(".png", "_test.tif"), bounds)
     elif bands == 1:
         pass
-        all_data = data_set.GetRasterBand(1).ReadAsArray(0, 0, x_size, y_size)
+        # all_data = data_set.GetRasterBand(1).ReadAsArray(0, 0, x_size, y_size)
         # wirte_geotiff(all_data, os.path.join(o_path, name).replace(".png", "_test.tif"), bounds)
     del data_set
 
