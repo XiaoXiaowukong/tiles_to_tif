@@ -22,6 +22,7 @@ def georeference_raster_tile(root, name, o_path):
 
 
 def create_singleband_tif(root, name, o_path, all):
+    print (name)
     #########
     x = int(os.path.splitext(name)[0].split("-")[1])
     y = int(os.path.splitext(name)[0].split("-")[2])
@@ -49,13 +50,13 @@ def create_singleband_tif(root, name, o_path, all):
             for r_item_item, g_item_item, b_item_item in zip(r_item, g_item, b_item):
                 key = "{}{}{}".format(r_item_item, g_item_item, b_item_item)
                 all[key] = 0
-                # item_data.append(color_config.color_level[key])
-                # all_data.append(item_data)
-                # all_data = np.asarray(all_data, dtype=np.uint8)
+                item_data.append(color_config.color_level[key])
+                all_data.append(item_data)
+                all_data = np.asarray(all_data, dtype=np.uint8)
                 # wirte_geotiff(all_data, os.path.join(o_path, name).replace(".png", "_test.tif"), bounds)
     elif bands == 1:
         pass
-        # all_data = data_set.GetRasterBand(1).ReadAsArray(0, 0, x_size, y_size)
+        all_data = data_set.GetRasterBand(1).ReadAsArray(0, 0, x_size, y_size)
         # wirte_geotiff(all_data, os.path.join(o_path, name).replace(".png", "_test.tif"), bounds)
     del data_set
 
